@@ -13,5 +13,6 @@ object DependenciesVersion {
     const val RETROFIT_COROUTINE_ADAPTER = "0.9.2"
     const val OKHTTP = "5.0.0-alpha.14"
     const val HILT = "2.55"
+    const val HILT_COMPOSE = "1.2.0"
     const val ROOM = "2.6.1"
 }

@@ -2,8 +2,9 @@ plugins {
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.ANDROID_APPLICATION)
     id(BuildPlugins.KOTLIN_COMPOSE) version "2.1.0"
-    kotlin(BuildPlugins.KAPT)
-
+    id(BuildPlugins.KAPT)
+    id(BuildPlugins.KTLINT)
+    id(BuildPlugins.HILT) version DependenciesVersion.HILT
 //    alias(libs.plugins.kotlin.android)
 //    alias(libs.plugins.kotlin.compose)
 }
@@ -23,17 +24,17 @@ android {
     }
 
     buildTypes {
-        getByName(BuildTypes.RELEASE){
+        getByName(BuildTypes.RELEASE) {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             isMinifyEnabled = Build.Release.isMinifyEnabled
             isDebuggable = Build.Release.isDebuggable
             enableUnitTestCoverage = Build.Release.enableUnitTestCoverage
         }
 
-        getByName(BuildTypes.DEBUG){
+        getByName(BuildTypes.DEBUG) {
             isMinifyEnabled = Build.Debug.isMinifyEnabled
             isDebuggable = Build.Debug.isDebuggable
             enableUnitTestCoverage = Build.Debug.enableUnitTestCoverage
@@ -41,25 +42,23 @@ android {
             versionNameSuffix = Build.Debug.versionNameSuffix
         }
 
-        create(BuildTypes.QA){
+        create(BuildTypes.QA) {
             isMinifyEnabled = Build.Qa.isMinifyEnabled
             isDebuggable = Build.Qa.isDebuggable
             enableUnitTestCoverage = Build.Qa.enableUnitTestCoverage
             applicationIdSuffix = Build.Qa.applicationIdSuffix
             versionNameSuffix = Build.Qa.versionNameSuffix
         }
-
     }
 
     flavorDimensions.add(BuildDimensions.APP)
     flavorDimensions.add(BuildDimensions.STORE)
 
-    productFlavors{
+    productFlavors {
         BuildFlavor.Huawei.create(this)
         BuildFlavor.Google.create(this)
         BuildFlavor.Driver.create(this)
         BuildFlavor.Rider.create(this)
-
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -83,4 +82,7 @@ dependencies {
     testImpl()
     androidTest()
     debugImpl()
+    coreDataModule()
+    coreDomainModule()
+    corePresentationModule()
 }
